@@ -54,6 +54,12 @@
 		class="es-button w-full btn-login-option btn-login-with-email-link">
 		{{ _("Login with Email Link") }}</a>
 	{% endif %}
+	{% if show_helpdesk_guest_submission %}
+	<p class="text-center text-p-sm text-ink-gray-6 mb-0">
+		<a href="/help/guest/new" class="text-p-sm-semibold text-ink-gray-6">
+			{{ _("Submit a request without signing in") }}</a>
+	</p>
+	{% endif %}
 	{% if social_login %}
 	<div class="social-logins text-center text-base">
 		<div class="social-login-buttons">
