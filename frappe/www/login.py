@@ -37,6 +37,21 @@ def get_context(context):
 			frappe.local.flags.redirect_location = redirect_to
 			raise frappe.Redirect
 
+	# The shared login page only shows the CBSUA guest-submission link when
+	# Helpdesk explicitly marks the login flow and the browser came from this site.
+	# The link is navigation only; the guest endpoint independently enforces access.
+	request = frappe.local.request
+	referrer = urlparse(request.headers.get("Referer", ""))
+	request_host = get_request_host(request)
+	is_helpdesk_referrer = (
+		referrer.scheme == request.scheme
+		and referrer.netloc == request_host
+		and (referrer.path == "/help" or referrer.path.startswith("/help/"))
+	)
+	context["show_helpdesk_guest_submission"] = (
+		request.args.get("helpdesk_guest") == "1" and is_helpdesk_referrer
+	)
+
 	context.no_header = True
 	context.for_test = "login.html"
 	context["title"] = _("Login")
