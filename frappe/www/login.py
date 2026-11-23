@@ -46,6 +46,7 @@ def get_context(context):
 	context["disable_user_pass_login"] = cint(frappe.get_system_settings("disable_user_pass_login"))
 	# CBSUA branding is shared by the Helpdesk deployment login experience.
 	context["logo"] = "/assets/helpdesk/desk/cbsua/cbsua-logo-2400.png"
+	context["favicon"] = "/assets/helpdesk/desk/cbsua/favicon.ico"
 	context["app_name"] = _("CBSUA Helpdesk")
 
 	signup_form_template = frappe.get_hooks("signup_form_template")
