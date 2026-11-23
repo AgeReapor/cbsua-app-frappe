@@ -70,14 +70,19 @@
 		</div>
 	</div>
 	{% endif %}
-	{% if show_helpdesk_guest_submission %}
 	<p class="text-center text-p-sm text-ink-gray-6 mb-0">
 		<a href="/help/guest/new" class="text-p-sm-semibold text-ink-gray-6">
-			{{ _("Submit a request without signing in") }}</a>
+			{{ _("Submit a ticket without logging in") }}</a>
 	</p>
-	{% endif %}
 </div>
 {% endmacro %}
+
+{% block favicon %}
+<link rel="icon" href="/assets/helpdesk/desk/cbsua/favicon.ico" type="image/x-icon">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/helpdesk/desk/cbsua/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/helpdesk/desk/cbsua/favicon-16x16.png">
+<link rel="apple-touch-icon" href="/assets/helpdesk/desk/cbsua/apple-touch-icon.png">
+{% endblock %}
 
 {% block head_include %}
 {{ include_style('login.bundle.css') }}
@@ -112,7 +117,7 @@
 	</noscript>
 	<section class='for-login'>
 		<div class="login-content page-card flex flex-col gap-5">
-			{{ logo_section(_('Sign In'), _('Welcome! Please sign in to continue.')) }}
+			{{ logo_section(_('Welcome back to CBSUA Helpdesk'), _('Sign in to continue, or submit a ticket without logging in.')) }}
 			<form class="form-signin form-login flex flex-col gap-8" role="form" novalidate>
 				{{ email_login_body() }}
 			</form>
@@ -128,7 +133,7 @@
 	{%- if social_login -%}
 	<section class='for-email-login'>
 		<div class="login-content page-card flex flex-col gap-5">
-			{{ logo_section(_('Sign In'), _('Welcome! Please sign in to continue.')) }}
+			{{ logo_section(_('Welcome back to CBSUA Helpdesk'), _('Sign in to continue, or submit a ticket without logging in.')) }}
 			<form class="form-signin form-login flex flex-col gap-8" role="form" novalidate>
 			{{ email_login_body() }}
 			</form>
@@ -185,7 +190,7 @@
 
 	<section class='for-login-with-email-link'>
 		<div class="login-content page-card flex flex-col gap-5">
-			{{ logo_section(_('Sign In'), _('Welcome! Please sign in to continue.')) }}
+			{{ logo_section(_('Welcome back to CBSUA Helpdesk'), _('Sign in to continue, or submit a ticket without logging in.')) }}
 			<form class="form-signin form-login-with-email-link hide flex flex-col gap-8" role="form" novalidate>
 				<div class="page-card-body flex flex-col gap-4">
 					{{ alert_banner("success") }}
@@ -207,6 +212,10 @@
 						type="submit">{{ _("Send login link") }}</button>
 					<a href="#login" class="es-button w-full btn-login-option">
 						{{ _("Login with password") }}</a>
+					<p class="text-center text-p-sm text-ink-gray-6 mb-0">
+						<a href="/help/guest/new" class="text-p-sm-semibold text-ink-gray-6">
+							{{ _("Submit a ticket without logging in") }}</a>
+					</p>
 				</div>
 			</form>
 			{%- if not disable_signup -%}
