@@ -9,7 +9,6 @@ import frappe.utils
 from frappe import _
 from frappe.apps import get_default_path
 from frappe.auth import LoginManager
-from frappe.core.doctype.navbar_settings.navbar_settings import get_app_logo
 from frappe.rate_limiter import rate_limit
 from frappe.utils import cint, get_request_host, get_url
 from frappe.utils.data import escape_html
@@ -37,21 +36,6 @@ def get_context(context):
 			frappe.local.flags.redirect_location = redirect_to
 			raise frappe.Redirect
 
-	# The shared login page only shows the CBSUA guest-submission link when
-	# Helpdesk explicitly marks the login flow and the browser came from this site.
-	# The link is navigation only; the guest endpoint independently enforces access.
-	request = frappe.local.request
-	referrer = urlparse(request.headers.get("Referer", ""))
-	request_host = get_request_host(request)
-	is_helpdesk_referrer = (
-		referrer.scheme == request.scheme
-		and referrer.netloc == request_host
-		and (referrer.path == "/help" or referrer.path.startswith("/help/"))
-	)
-	context["show_helpdesk_guest_submission"] = (
-		request.args.get("helpdesk_guest") == "1" and is_helpdesk_referrer
-	)
-
 	context.no_header = True
 	context.for_test = "login.html"
 	context["title"] = _("Login")
@@ -60,10 +44,9 @@ def get_context(context):
 	context["disable_signup"] = cint(frappe.get_website_settings("disable_signup"))
 	context["show_footer_on_login"] = cint(frappe.get_website_settings("show_footer_on_login"))
 	context["disable_user_pass_login"] = cint(frappe.get_system_settings("disable_user_pass_login"))
-	context["logo"] = get_app_logo()
-	context["app_name"] = (
-		frappe.get_website_settings("app_name") or frappe.get_system_settings("app_name") or _("Frappe")
-	)
+	# CBSUA branding is shared by the Helpdesk deployment login experience.
+	context["logo"] = "/assets/helpdesk/desk/cbsua/cbsua-logo-2400.png"
+	context["app_name"] = _("CBSUA Helpdesk")
 
 	signup_form_template = frappe.get_hooks("signup_form_template")
 	if signup_form_template and len(signup_form_template):
